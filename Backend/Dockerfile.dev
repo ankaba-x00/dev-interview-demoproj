@@ -4,8 +4,12 @@ WORKDIR /app
 
 COPY package*.json ./
 
+RUN apt-get update && apt-get install -y netcat-openbsd
 RUN npm install
+
+COPY wait-for-mongo.sh /app/wait-for-mongo.sh
+RUN chmod +x /app/wait-for-mongo.sh
 
 EXPOSE 3000
 
-CMD [ "npm", "start" ]
+CMD [ "./wait-for-mongo.sh", "mongo-user", "npm", "start" ]
