@@ -1,0 +1,17 @@
+services:
+
+  frontend_service_user:
+    container_name: fe_service_user
+    build:
+      context: ./app
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "5001:8080"
+    environment:
+      TZ: Europe/Berlin
+
