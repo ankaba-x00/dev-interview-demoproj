@@ -12,8 +12,27 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppFooter: typeof import('./src/components/AppFooter.vue')['default']
+    AppLayout: typeof import('./src/components/layout/AppLayout.vue')['default']
+    BlockUserDialog: typeof import('./src/components/dialogs/BlockUserDialog.vue')['default']
+    CollapseToggle: typeof import('./src/components/layout/CollapseToggle.vue')['default']
+    ConfirmDialog: typeof import('./src/components/common/ConfirmDialog.vue')['default']
+    CopyIcon: typeof import('./src/components/common/CopyIcon.vue')['default']
+    DeleteUserDialog: typeof import('./src/components/dialogs/DeleteUserDialog.vue')['default']
+    EditUserDialog: typeof import('./src/components/dialogs/EditUserDialog.vue')['default']
+    ExpandedRowContent: typeof import('./src/components/table/ExpandedRowContent.vue')['default']
+    FilterUsersDialog: typeof import('./src/components/dialogs/FilterUsersDialog.vue')['default']
+    ImportUsersDialog: typeof import('./src/components/dialogs/ImportUsersDialog.vue')['default']
+    NavigationItems: typeof import('./src/components/layout/NavigationItems.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SearchUsersDialog: typeof import('./src/components/dialogs/SearchUsersDialog.vue')['default']
+    SideBar: typeof import('./src/components/layout/SideBar.vue')['default']
+    ThemeToggle: typeof import('./src/components/layout/ThemeToggle.vue')['default']
     TODO: typeof import('./src/components/TODO.vue')['default']
+    TopBar: typeof import('./src/components/layout/TopBar.vue')['default']
+    UserMenu: typeof import('./src/components/layout/UserMenu.vue')['default']
+    UserTable: typeof import('./src/components/table/UserTable.vue')['default']
+    UserTableRowActions: typeof import('./src/components/table/UserTableRowActions.vue')['default']
+    UserTableToolbar: typeof import('./src/components/table/UserTableToolbar.vue')['default']
   }
 }

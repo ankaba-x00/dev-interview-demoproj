@@ -1,112 +1,42 @@
-# Bewerber Test 2026
+# Technical Interview project: Fullstack User Management Dashboard
 
-Dieses Projekt dient als technischer Bewerbertest und besteht aus einem **Backend (Node.js + Express)**, einer **MongoDB-Datenbank** sowie einem **Frontend (Vue 3 + Vite)**.  
-Alle Services werden lokal über **Docker** betrieben.
+A fullstack demonstration project built for a technical software development interview.
 
----
+## Tech Stack
+Node.js + Express | MongoDB | Vue 3 + Vuetify 3 + Vite | Docker
 
-## Aufgabe
-Erstelle eine Webapp in der folgende Funktionalitäten bereitgestellt werden:
-- Import der Userdaten aus der CSV in die Datenbank
-- Anzeige der Userdaten tabellarisch auf einer Webseite.
-- User anlegen und anpassen können
-- User blockieren und freischalten können
-- In der Tabelle nach verschiedenen Attributen sortieren und filtern können
-- Nutze für die Darstellung Vuetify
+## Interview tasks
+- Create a web app with the following features:
+    - Import user data from CSV to database
+    - Display user data in a table on a webpage
+    - Create and edit users
+    - Block and unblock users
+    - Sort and filter by different attributes in the table
+    - Use Vuetify for the UI
+- Addon focused questions:
+    - How would you simplify the structure?
+    - What changes when deployed to production?
 
-In der Präsentation:
-- Vorstellung der App
-- Erklärung des Codes
+## My solution
 
-Wichtige Fragen:
-- Was würdest du an der Struktur vereinfachen?
-- Was sollte man ändern, wenn der Code in eine Produktivumgebung deployed wird? 
+### Main Features and Focus
 
----
+### Security Features
 
-## Voraussetzungen
+### UI/UX Features
 
-Bitte stelle sicher, dass folgende Tools installiert sind:
+### Tests
 
-- Node.js
-- npm
-- Docker
-- Docker Compose
+### Dev -> Prod Addons
 
----
+## Getting Started
 
-## Installation & Start
+## Services and Ports
 
-### Backend
+## Project Structure
 
-```bash
-cd Backend
-npm install
-docker compose up --build
-```
+## Contact
 
-Das Backend läuft anschließend unter:
+## License
 
-http://localhost:4001
-
----
-
-### Datenbank
-
-Die MongoDB läuft in einem Docker-Container.  
-Die Datenbank kann initialisiert bzw. zurückgesetzt werden.
-
-```bash
-chmod +x initiateDB.sh
-./initiateDB.sh
-```
-
-Hinweis: MongoDB ist im Entwicklungsmodus **ohne Authentifizierung** konfiguriert.
-
----
-
-### Frontend
-
-```bash
-cd Frontend
-npm install
-docker compose up --build
-```
-
-Das Frontend ist danach erreichbar unter:
-
-http://localhost:5001
-
----
-
-## Projektstruktur (Übersicht)
-
-```bash
-Bewerbertest2026
-├── Backend
-│ ├── app
-│ ├── Database
-│ ├── docker-compose.yml
-│ ├── Dockerfile.dev
-│ ├── index.js
-│ └── package.json
-│
-├── Frontend
-│ ├── app
-│ ├── docker-compose.yml
-│ └── Dockerfile.dev
-│
-├── user.csv
-└── README.md
-```
-
----
-
-## Hinweise
-
-- Backend und Frontend laufen in getrennten Docker-Containern
-- Hot Reload ist für beide Services aktiviert
-- Die API ist über Docker-internes Networking mit MongoDB verbunden
-
-
-Viel Erfolg beim Bewerbertest 🚀
+## Demo Video

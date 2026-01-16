@@ -1,0 +1,26 @@
+.floating-toggle {
+  position: fixed;
+  z-index: 2000;
+
+  &.top {
+    top: 8px;
+    left: 4px;
+  }
+
+  &.side {
+    top: 4px;
+    left: 8px;
+  }
+}
+
+.gap-1 {
+  gap: 4px;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.hover-opacity:hover {
+  opacity: 0.75;
+}
