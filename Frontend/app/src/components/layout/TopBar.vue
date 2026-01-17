@@ -72,7 +72,3 @@
     />
   </div>
 </template>
-
-<style scoped lang="scss">
-  @use '@/styles/utilities' as *;
-</style>

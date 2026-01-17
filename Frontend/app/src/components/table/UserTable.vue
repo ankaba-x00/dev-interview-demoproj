@@ -1,53 +1,63 @@
 <script setup>
   import { ref } from 'vue';
+  import CopyIcon from '@/components/common/CopyIcon.vue';
   import UserTableRowActions from './UserTableRowActions.vue';
   import ExpandedRowContent from './ExpandedRowContent.vue';
-  import userData from '@/users.json';
 
-  const isAdmin = true;
+  defineProps({
+    filteredUsers: {
+      type: Array,
+      required: true,
+    },
+    isAdmin: {
+      type: Boolean,
+      required: true,
+    },
+  });
+
   const expanded = ref([]);
 
   const headers = [
     { title: 'ID', key: 'id', sortable: true, align: 'center', minWidth: 30, },
-    { title: 'Name', key: 'name', sortable: true, align: 'center', minWidth: 200, },
+    { title: 'Name', key: 'name', sortable: true, align: 'center', minWidth: 175, },
     { title: 'Email', key: 'email', sortable: true, align: 'center', minWidth: 220, },
-    { title: 'Location', key: 'location', sortable: true, align: 'center', minWidth: 150, },
-    { title: 'Status', key: 'status', sortable: true, align: 'center', minWidth: 75, },
-    { title: 'Blocked', key: 'blocked', sortable: true, align: 'center', minWidth: 75, },
+    { title: 'Location', key: 'location', sortable: true, align: 'center', minWidth: 120, },
+    { title: 'Status', key: 'status', sortable: true, align: 'center', minWidth: 70, },
+    { title: 'Blocked', key: 'blocked', sortable: true, align: 'center', minWidth: 70, },
     { title: 'Actions', key: 'actions', sortable: false, align: 'center', width: 80, },
   ];
-
-  const users = ref(
-    userData.map((user, index) => ({
-      id: index + 1,
-      name: user.Name,
-      email: user.Email,
-      location: user.Location,
-      blocked: user.Active !== 'true',
-      status: user.Active === 'true' ? 'active' : 'inactive',
-      lastLogin: user.LastLogin,
-      ipAddress: user.IPAddress,
-    }))
-  );
 </script>
 
 <template>
   <v-data-table
     aria-label="Users data table with expandable rows for admins"
     v-model:expanded="expanded"
-    show-expand
-    expand-on-click
+    :show-expand="isAdmin"
     :headers="headers"
-    :items="users"
+    :items="filteredUsers"
     item-value="id"
     fixed-header
-    height="550"
+    height="525"
     class="elevation-1 bg-background rounded-lg"
   >
-    <template #item.actions="{ item }">
+    <template #item.name="{ value }">
+      <div class="d-flex align-center justify-center gap-2">
+        <span>{{ value }}</span>
+        <CopyIcon :value="value" />
+      </div>
+    </template>
+
+    <template #item.email="{ value }">
+      <div class="d-flex align-center justify-center gap-2">
+        <span>{{ value }}</span>
+        <CopyIcon :value="value" />
+      </div>
+    </template>
+
+    <template #item.actions="{ internalItem }">
       <div class="d-flex justify-center">
         <UserTableRowActions 
-          :user="item"
+          :user="internalItem.raw"
           aria-label="User action menu"
         />
       </div>
@@ -97,6 +107,7 @@
 
     &:hover > * {
       opacity: 1 !important;
+      transform: scale(1.1) !important;
     }
   }
 

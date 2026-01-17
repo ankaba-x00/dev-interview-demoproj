@@ -4,13 +4,17 @@
 
   const props = defineProps({
     modelValue: Boolean,
-    user: {
-      type: Object,
-      required: true,
-    },
   });
 
   const formRef = ref(null);
+
+  const emptyUser = {
+    name: '',
+    email: '',
+    location: '',
+    status: 'active',
+    blocked: false,
+  };
 
   const emit = defineEmits(['update:modelValue', 'submit']);
 
@@ -19,7 +23,7 @@
   }
 
   function onSubmit(data) {
-    emit('submit', { id: props.user.id, ...data });
+    emit('submit', data);
     close();
   }
 </script>
@@ -27,16 +31,16 @@
 <template>
   <v-dialog :model-value="modelValue" max-width="500" persistent>
     <v-card class="pa-2 rounded-lg">
-      <v-card-title>Edit user</v-card-title>
+      <v-card-title>New user</v-card-title>
 
       <v-card-text>
         <UserForm
           ref="formRef"
-          :model-value="user"
+          :model-value="emptyUser"
           :placeholders="{
-            name: user.name,
-            email: user.email,
-            location: user.location,
+            name: 'Max Mustermann',
+            email: 'max@example.com',
+            location: 'Berlin',
           }"
           @submit="onSubmit"
         />
@@ -49,12 +53,12 @@
         >
           Cancel
         </v-btn>
-        <v-btn 
+        <v-btn
           variant="flat"
           color="clr0"
           @click="formRef?.submit()"
         >
-          Update
+          Add
         </v-btn>
       </v-card-actions>
     </v-card>

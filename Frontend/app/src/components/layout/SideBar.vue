@@ -90,8 +90,6 @@
 </template>
 
 <style scoped lang="scss">
-  @use '@/styles/utilities' as *;
-
   .sidebar-fit {
     height: 100vh;
   }

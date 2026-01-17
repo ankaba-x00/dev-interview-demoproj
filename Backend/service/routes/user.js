@@ -1,4 +1,4 @@
-const router = require('express').Router()
+const router = require('express').Router();
 const { MongoClient } = require('mongodb');
 
 //example connection  

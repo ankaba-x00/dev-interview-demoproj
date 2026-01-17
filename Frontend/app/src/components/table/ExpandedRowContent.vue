@@ -29,14 +29,17 @@
 
 <style scoped lang="scss">
   .expanded-row {
+    width: 100%;
     background-color: rgba(var(--v-theme-background));
     border-left: 3px solid rgb(var(--v-theme-clr2));
+    margin-left: 50px;
   }
 
   .info-block {
     display: flex;
     flex-direction: column;
     min-width: 150px;
+    margin-right: 10px;
     padding: 5px;
   }
 

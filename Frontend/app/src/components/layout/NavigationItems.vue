@@ -111,8 +111,6 @@
 </template>
 
 <style scoped lang="scss">
-  @use '@/styles/utilities' as *;
-
   .nav-text {
     letter-spacing: normal;
     text-transform: uppercase;

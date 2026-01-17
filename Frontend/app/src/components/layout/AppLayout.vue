@@ -55,12 +55,12 @@
     />
 
     <v-main class="main-scroll">
-      <slot />
+      <router-view />
     </v-main>
   </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
   .app-shell {
     height: 100vh;
     display: flex;

@@ -1,0 +1,22 @@
+.floating-toggle {
+  position: fixed;
+  z-index: 2000;
+
+  &.top {
+    top: 8px;
+    left: 4px;
+  }
+
+  &.side {
+    top: 4px;
+    left: 8px;
+  }
+}
+
+.btn-export{
+    width: 50px;
+  }
+
+.btn-auth {
+    width: 120px;
+  }

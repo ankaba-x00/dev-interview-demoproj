@@ -1,21 +1,21 @@
 <script setup>
+  import { computed } from 'vue';
+  import { useRoute } from 'vue-router';
+
   import AppLayout from '@/components/layout/AppLayout.vue';
+  import AuthLayout from '@/components/layout/AuthLayout.vue';
+
+  const route = useRoute();
+
+  const layout = computed(() =>
+    route.meta.layout === 'auth'
+      ? AuthLayout
+      : AppLayout
+  );
 </script>
 
 <template>
   <v-app>
-    <AppLayout>
-      <router-view />
-    </AppLayout>
+    <component :is="layout" />
   </v-app>
 </template>
-
-<style lang="scss">
-  html,
-  body,
-  #app {
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
-  }
-</style>
