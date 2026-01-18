@@ -1,11 +1,19 @@
-const Joi = require('joi')
+const Joi = require("joi");
 
-const userValidation = (data, all = true) => {
-  const schema = Joi.object({
-    //TODO
-  })
-  var errors = schema.validate(data, { abortEarly: false, allowUnknown: false })['error']
-  return errors ? errors.details : errors
-}
+const createUserSchema = Joi.object({
+  name: Joi.string().min(3).max(100).required(),
+  email: Joi.string().email().required(),
+  location: Joi.string().min(2).max(100).required(),
+  isActive: Joi.boolean(),
+  isBlocked: Joi.boolean(),
+});
 
-module.exports.userValidation = userValidation
+const updateUserSchema = createUserSchema.fork(
+  ["name", "email", "location"],
+  field => field.optional(),
+);
+
+module.exports = {
+  validateCreateUser: data => createUserSchema.validate(data, { abortEarly: false, allowUnknown: false }),
+  validateUpdateUser: data => updateUserSchema.validate(data, { abortEarly: false, allowUnknown: false }),
+};

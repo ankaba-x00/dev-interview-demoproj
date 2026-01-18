@@ -3,11 +3,6 @@ const validator = require('validator');
 
 const userSchema = new mongoose.Schema(
   {
-    name: { 
-      type: String,
-      trim: true,
-      required: [true, "Name is required"],
-    },
     email: { 
       type: String,
       lowercase: true,
@@ -16,18 +11,14 @@ const userSchema = new mongoose.Schema(
       unique: true,
       validate: [validator.isEmail, "Invalid email address"],
     },
-    location: {
-      type: String,
-      trim: true,
-      required: [true, "Location is required"],
-    },
-    isActive: { 
-      type: Boolean, 
-      default: true,
-    },
-    isBlocked: { 
-      type: Boolean, 
-      default: false,
+    password: { 
+      type: String, 
+      required: [true, "Password is required"],
+    }, 
+    role: {
+      type: String, 
+      enum: ["USER", "ADMIN"], 
+      default: "USER",
     },
     lastLogin: {
       type: Date, 
@@ -37,7 +28,7 @@ const userSchema = new mongoose.Schema(
       type: String, 
       validate: {
         validator: validator.isIP,
-        message: props => `${props.value} is not a valid IP address`,
+        message: props => `${props.value} is not a valid IP address`
       },
     },
   },

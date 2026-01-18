@@ -1,0 +1,51 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+build
+.out
+coverage
+npm-debug.log
+
+# Environment / secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Git
+.git
+.gitignore
+
+# Editors / IDEs
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Logs / temp
+logs
+*.log
+tmp
+temp
+
+# DB data
+Database/mongodb_user
+Database/mongodb_user/**
+Database/**/WiredTiger*
+Database/**/journal
+Database/**/diagnostic.data
+Database/**/_tmp
+Database/**/.mongodb
+Database/**/mongod.lock
+Database/**/*.wt
+Database/**/*.bson
+
+# Dev-only Docker files
+docker-compose.yml
+Dockerfile.dev

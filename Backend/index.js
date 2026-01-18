@@ -1,33 +1,29 @@
-const express = require("express")
-const app = express()
+const dotenv = require("dotenv");
+const express = require("express");
 const cors = require("cors");
+const connectDB = require("./service/utils/db.js");
+const authRoute = require("./service/routes/auth");
+const userRoute = require("./service/routes/user");
 
-app.use(express.json({ limit: "100mb" }))
+dotenv.config();
 
+const app = express();
+
+app.use(express.json({ limit: "200mb" }));
 app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: '*',
-  exposedHeaders: [
-    'Location',
+  origin: 'https://localhost:5001',
+  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  allowedHeaders: [
     'Content-Type',
-    'Content-Description',
-    'Content-Disposition',
-    'Expires',
-    'Cache-Control',
-    'Pragma',
-    'Content-Length',
-    'Content-Range',
-    'Max-Parts',
-    'File-Part',
-    'Temp-Name'
+    'Athorization',
   ],
-  credentials: true,
-}))
+}));
 
-const userRoute = require("./service/routes/user")
-app.use("/v1/users", userRoute)
+connectDB();
+
+app.use("/v1/auth", authRoute);
+app.use("/v1/users", userRoute);
 
 app.listen(3000, () => {
-  console.log("Backend running on Port " + 3000);
+  console.log("Backend server is running");
 });
