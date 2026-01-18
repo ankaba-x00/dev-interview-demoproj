@@ -13,6 +13,10 @@
       type: Boolean,
       required: true,
     },
+    sortBy: {
+      type: Array,
+      default: () => [],
+    }
   });
 
   const expanded = ref([]);
@@ -26,12 +30,16 @@
     { title: 'Blocked', key: 'blocked', sortable: true, align: 'center', minWidth: 70, },
     { title: 'Actions', key: 'actions', sortable: false, align: 'center', width: 80, },
   ];
+
+  const emit = defineEmits(['update:sort-by']);
 </script>
 
 <template>
   <v-data-table
     aria-label="Users data table with expandable rows for admins"
     v-model:expanded="expanded"
+    :sort-by="sortBy"
+    @update:sort-by="emit('update:sort-by', $event)"
     :show-expand="isAdmin"
     :headers="headers"
     :items="filteredUsers"

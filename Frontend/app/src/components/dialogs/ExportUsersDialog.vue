@@ -21,7 +21,7 @@
     close();
   }
 
-  function exportFiltered() {
+  function exportClient() {
     emit('export-filtered');
     close();
   }
@@ -47,7 +47,7 @@
           variant="flat"
           color="clr0"
           class="mx-2"
-          @click="exportFiltered"
+          @click="exportClient"
         >
           Filtered list
         </v-btn>

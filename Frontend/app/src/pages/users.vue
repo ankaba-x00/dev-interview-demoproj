@@ -35,6 +35,8 @@
   const route = useRoute();
   const router = useRouter();
 
+  // QUERY PARAMS
+
   const searchParams = computed(() => ({
     name: route.query.name?.toString().toLowerCase() || '',
     email: route.query.email?.toString().toLowerCase() || '',
@@ -58,6 +60,19 @@
     loginFrom: route.query.loginFrom || null,
     loginTo: route.query.loginTo || null,
   }));
+
+  const sortParams = computed(() => {
+    if (!route.query.sortBy || !route.query.order) return [];
+
+    return [
+      {
+        key: route.query.sortBy,
+        order: route.query.order === 'desc' ? 'desc' : 'asc',
+      },
+    ];
+  });
+
+  // HELPER
 
   function withinLoginRange(lastLogin, range) {
     if (!range || !lastLogin) return true;
@@ -84,6 +99,9 @@
 
     return true;
   }
+
+
+  // FILTERING
 
   const filteredUsers = computed(() => {
     return users.value.filter(user => {
@@ -133,6 +151,31 @@
     })
   });
 
+  // SORTING
+
+  const sortedUsers = computed(() => {
+    const rows = [...filteredUsers.value];
+
+    const sortBy = route.query.sortBy;
+    const order = route.query.order;
+
+    if (!sortBy) return rows;
+
+    rows.sort((a, b) => {
+      const aVal = a[sortBy];
+      const bVal = b[sortBy];
+
+      if (aVal == null) return 1;
+      if (bVal == null) return -1;
+
+      if (aVal < bVal) return order === 'desc' ? 1 : -1;
+      if (aVal > bVal) return order === 'desc' ? -1 : 1;
+      return 0;
+    });
+
+    return rows;
+  });
+
   function createUser(data) {
     console.log('CREATE user', data);
   }
@@ -142,43 +185,65 @@
   }
 
   function applySearch(params) {
-    router.push({ 
-      query: { 
-        ...params
-      } 
-    });
-  }
-  function applyFilters(filters) {
     const current = { ...route.query };
 
-    if (filters.isActive !== undefined) {
-      current.isActive = String(filters.isActive);
+    if (params.name) current.name = params.name;
+    else delete current.name;
+
+    if (params.email) current.email = params.email;
+    else delete current.email;
+
+    if (params.location) current.location = params.location;
+    else delete current.location;
+
+    router.push({ query: current });
+  }
+
+  function applyFilters(params) {
+    const current = { ...route.query };
+
+    if (params.isActive !== undefined) {
+      current.isActive = String(params.isActive);
     } else {
       delete current.isActive;
     }
 
-    if (filters.isBlocked !== undefined) {
-      current.isBlocked = String(filters.isBlocked);
+    if (params.isBlocked !== undefined) {
+      current.isBlocked = String(params.isBlocked);
     } else {
       delete current.isBlocked;
     }
 
-    if (filters.loginRange) {
-      current.loginRange = filters.loginRange;
+    if (params.loginRange) {
+      current.loginRange = params.loginRange;
       delete current.loginFrom;
       delete current.loginTo;
     } else {
       delete current.loginRange;
     }
 
-    if (filters.loginFrom || filters.loginTo) {
-      if (filters.loginFrom) current.loginFrom = filters.loginFrom
+    if (params.loginFrom || params.loginTo) {
+      if (params.loginFrom) current.loginFrom = params.loginFrom
       else delete current.loginFrom;
 
-      if (filters.loginTo) current.loginTo = filters.loginTo
+      if (params.loginTo) current.loginTo = params.loginTo
       else delete current.loginTo;
 
       delete current.loginRange;
+    }
+
+    router.push({ query: current });
+  }
+
+  function applySort(params) {
+    const current = { ...route.query };
+    
+    if (!params.length) {
+      delete current.sortBy;
+      delete current.order;
+    } else {
+      current.sortBy = params[0].key;
+      current.order = params[0].order;
     }
 
     router.push({ query: current });
@@ -188,7 +253,7 @@
     console.log('EXPORT full list from backend');
   }
 
-  function exportFilteredList(rows) {
+  function exportClientList(rows) {
     console.log('EXPORT filtered list', rows);
   }
 </script>
@@ -208,14 +273,16 @@
     <v-divider class="my-2" />
 
     <UserTable 
-      :filtered-users="filteredUsers"
-      :is-admin="isAdmin" 
+      :filtered-users="sortedUsers"
+      :is-admin="isAdmin"
+      :sort-by="sortParams"
+      @update:sort-by="applySort"
     />
 
     <v-divider class="my-2" />
 
     <UserTableExportFooter
-      :filtered-users="filteredUsers"
+      :filtered-users="sortedUsers"
       @export="exportDialogOpen = true"
     />
 
@@ -245,7 +312,7 @@
     <ExportUsersDialog
       v-model="exportDialogOpen"
       @export-full="exportFullList"
-      @export-filtered="() => exportFilteredList(filteredUsers)"
+      @export-filtered="() => exportClientList(sortedUsers)"
     />
 
   </div>
