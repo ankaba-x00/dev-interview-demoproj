@@ -291,7 +291,7 @@
     <v-divider class="my-2" />
 
     <UserTable 
-      :filtered-users="sortedUsers"
+      :items="sortedUsers"
       :is-admin="isAdmin"
       :sort-by="sortParams"
       :page="paginationParams.page"

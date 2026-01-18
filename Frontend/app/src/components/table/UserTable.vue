@@ -5,7 +5,7 @@
   import ExpandedRowContent from './ExpandedRowContent.vue';
 
   defineProps({
-    filteredUsers: {
+    items: {
       type: Array,
       required: true,
     },
@@ -59,7 +59,7 @@
     @update:items-per-page="emit('update:pagination', { page: 1, itemsPerPage: $event })"
     :show-expand="isAdmin"
     :headers="headers"
-    :items="filteredUsers"
+    :items="items"
     item-value="id"
     fixed-header
     height="525"
