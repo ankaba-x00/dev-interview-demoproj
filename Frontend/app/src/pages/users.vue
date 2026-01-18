@@ -72,6 +72,11 @@
     ];
   });
 
+  const paginationParams = computed(() => ({
+      page: Number(route.query.page) || 1,
+      limit: Number(route.query.limit) || 25,
+  }));
+
   // HELPER
 
   function withinLoginRange(lastLogin, range) {
@@ -184,6 +189,8 @@
     console.log('IMPORT users', file);
   }
 
+  // HANDLE QUERY UPDATES
+
   function applySearch(params) {
     const current = { ...route.query };
 
@@ -249,6 +256,17 @@
     router.push({ query: current });
   }
 
+  function applyPagination({ page, itemsPerPage }) {
+    const current = { ...route.query };
+
+    current.page = page;
+    current.limit = itemsPerPage;
+
+    router.push({ query: current });
+  }
+
+  // HANDLE EXPORT
+
   function exportFullList() {
     console.log('EXPORT full list from backend');
   }
@@ -276,7 +294,11 @@
       :filtered-users="sortedUsers"
       :is-admin="isAdmin"
       :sort-by="sortParams"
+      :page="paginationParams.page"
+      :items-per-page="paginationParams.limit"
+      :total-items="sortedUsers.length"
       @update:sort-by="applySort"
+      @update:pagination="applyPagination"
     />
 
     <v-divider class="my-2" />

@@ -16,7 +16,19 @@
     sortBy: {
       type: Array,
       default: () => [],
-    }
+    },
+    page: {
+      type: Number,
+      required: true,
+    },
+    itemsPerPage: {
+      type: Number,
+      required: true,
+    },
+    totalItems: {
+      type: Number,
+      required: true,
+    },
   });
 
   const expanded = ref([]);
@@ -31,7 +43,7 @@
     { title: 'Actions', key: 'actions', sortable: false, align: 'center', width: 80, },
   ];
 
-  const emit = defineEmits(['update:sort-by']);
+  const emit = defineEmits(['update:sort-by', 'update:pagination']);
 </script>
 
 <template>
@@ -40,6 +52,11 @@
     v-model:expanded="expanded"
     :sort-by="sortBy"
     @update:sort-by="emit('update:sort-by', $event)"
+    :page="page"
+    :items-per-page="itemsPerPage"
+    :items-length="totalItems"
+    @update:page="emit('update:pagination', { page: $event, itemsPerPage })"
+    @update:items-per-page="emit('update:pagination', { page: 1, itemsPerPage: $event })"
     :show-expand="isAdmin"
     :headers="headers"
     :items="filteredUsers"
