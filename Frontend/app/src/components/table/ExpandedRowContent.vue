@@ -1,14 +1,16 @@
 <script setup>
+  import { useAuthStore } from "@/stores/auth";
+  import { computed } from "vue";
+
   defineProps({
     user: {
       type: Object,
       required: true,
     },
-    isAdmin: {
-      type: Boolean,
-      required: true,
-    },
   });
+
+  const auth = useAuthStore();
+  const isAdmin = computed(() => auth.isAdmin);
 </script>
 
 <template>

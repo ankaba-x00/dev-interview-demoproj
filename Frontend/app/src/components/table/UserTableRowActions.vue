@@ -1,30 +1,30 @@
 <script setup>
-  import { ref } from 'vue';
-  import DeleteUserDialog from '@/components/dialogs/DeleteUserDialog.vue';
-  import BlockUserDialog from '@/components/dialogs/BlockUserDialog.vue';
-  import EditUserDialog from "../dialogs/EditUserDialog.vue";
+  import { useRoute, useRouter } from 'vue-router';
+  import { useAuthStore } from "@/stores/auth";
+  import { computed } from "vue";
 
-  defineProps({
+  const props = defineProps({
     user: {
       type: Object,
       required: true,
     },
   });
 
-  const editDialogOpen = ref(false);
-  const deleteDialogOpen = ref(false);
-  const blockDialogOpen = ref(false);
+  const auth = useAuthStore();
+  const isAdmin = computed(() => auth.isAdmin);
 
-  function editUser(id) {
-    console.log('EDIT user', id);
-  }
+  const route = useRoute();
+  const router = useRouter();
 
-  function deleteUser(id) {
-    console.log('DELETE user', id);
-  }
-
-  function blockUser(id) {
-    console.log('BLOCK user', id);
+  function openAction(action) {
+    router.push({
+      path: "/users",
+      query: {
+        ...route.query,
+        action,
+        id: props.user.id,
+      },
+    });
   }
 </script>
 
@@ -37,18 +37,13 @@
           icon
           size="small"
           variant="text"
-          @click="editDialogOpen = true"
+          :disabled="!isAdmin"
+          @click="openAction('edit')"
         >
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
       </template>
     </v-tooltip>
-
-    <EditUserDialog
-      v-model="editDialogOpen"
-      :user="user"
-      @submit="editUser"
-    />
 
     <v-tooltip text="Delete" location="top">
       <template #activator="{ props }">
@@ -57,18 +52,13 @@
           icon
           size="small"
           variant="text"
-          @click="deleteDialogOpen = true"
+          :disabled="!isAdmin"
+          @click="openAction('delete')"
         >
           <v-icon color="error">mdi-delete</v-icon>
         </v-btn>
       </template>
     </v-tooltip>
-
-    <DeleteUserDialog
-      v-model="deleteDialogOpen"
-      :user="user"
-      @confirm="deleteUser"
-    />
 
     <v-tooltip text="Block" location="top">
       <template #activator="{ props }">
@@ -77,17 +67,12 @@
           icon
           size="small"
           variant="text"
-          @click="blockDialogOpen = true"
+          :disabled="!isAdmin"
+          @click="openAction('block')"
         >
           <v-icon>mdi-cancel</v-icon>
         </v-btn>
       </template>
     </v-tooltip>
-
-    <BlockUserDialog
-      v-model="blockDialogOpen"
-      :user="user"
-      @confirm="blockUser"
-    />
   </div>
 </template>

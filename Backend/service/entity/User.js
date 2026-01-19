@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const validator = require('validator');
 
 const userSchema = new mongoose.Schema(
@@ -6,20 +6,20 @@ const userSchema = new mongoose.Schema(
     name: { 
       type: String,
       trim: true,
-      required: [true, "Name is required"],
+      required: [true, 'Name is required'],
     },
     email: { 
       type: String,
       lowercase: true,
       trim: true,
-      required: [true, "Email is required"],
+      required: [true, 'Email is required'],
       unique: true,
-      validate: [validator.isEmail, "Invalid email address"],
+      validate: [validator.isEmail, 'Invalid email address'],
     },
     location: {
       type: String,
       trim: true,
-      required: [true, "Location is required"],
+      required: [true, 'Location is required'],
     },
     isActive: { 
       type: Boolean, 
@@ -44,4 +44,4 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-module.exports = userSchema; 
+module.exports = mongoose.model('User', userSchema);

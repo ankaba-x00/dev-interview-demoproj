@@ -1,4 +1,6 @@
 <script setup>
+  import { useAuthStore } from '@/stores/auth';
+  import { useRouter } from 'vue-router';
   import AuthForm from '@/components/common/AuthForm.vue';
 
   definePage({
@@ -7,8 +9,16 @@
     },
   });
 
-  function login(data) {
-    console.log('LOGIN', data);
+  const auth = useAuthStore();
+  const router = useRouter();
+
+  async function login(data) {
+    try {
+      await auth.login(data);
+      router.push('/');
+    } catch (err) {
+      console.error('Login failed', err);
+    }
   }
 </script>
 

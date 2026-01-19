@@ -12,7 +12,7 @@
   const emit = defineEmits(['update:modelValue', 'confirm']);
 
   function onConfirm() {
-    emit('confirm', props.user.id);
+    emit('confirm', props.user);
   }
 </script>
 

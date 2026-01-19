@@ -1,4 +1,4 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
 const createUserSchema = Joi.object({
   name: Joi.string().min(3).max(100).required(),
@@ -9,7 +9,7 @@ const createUserSchema = Joi.object({
 });
 
 const updateUserSchema = createUserSchema.fork(
-  ["name", "email", "location"],
+  ['name', 'email', 'location'],
   field => field.optional(),
 );
 

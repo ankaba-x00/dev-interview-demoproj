@@ -4,8 +4,8 @@
   import NavigationItems from './NavigationItems.vue';
   import ThemeToggle from './ThemeToggle.vue';
   import UserMenu from './UserMenu.vue';
-
-  const { smAndDown } = useDisplay();
+  import { useAuthStore } from '@/stores/auth';
+  import { useRouter } from 'vue-router';
 
   const props = defineProps({
     collapsed: {
@@ -14,13 +14,19 @@
     },
   });
 
+  const auth = useAuthStore();
+  const router = useRouter();
+
+  const { smAndDown } = useDisplay();
+
   const emit = defineEmits([
     'toggle-collapse',
     'switch-layout',
   ]);
 
   function onLogout() {
-    console.log('Logout clicked');
+    auth.logout();
+    router.push('/login');
   }
 </script>
 
@@ -72,7 +78,10 @@
         </div>
 
         <!-- User menu -->
-        <UserMenu @logout="onLogout" />
+        <UserMenu 
+          :username="auth.user?.email"
+          @logout="onLogout" 
+        />
       </div>
     </template>
   </v-navigation-drawer>

@@ -1,16 +1,13 @@
 <script setup>
-  import { ref } from 'vue';
+  import { ref, computed } from 'vue';
   import CopyIcon from '@/components/common/CopyIcon.vue';
   import UserTableRowActions from './UserTableRowActions.vue';
   import ExpandedRowContent from './ExpandedRowContent.vue';
+  import { useAuthStore } from "@/stores/auth";
 
   defineProps({
     items: {
       type: Array,
-      required: true,
-    },
-    isAdmin: {
-      type: Boolean,
       required: true,
     },
     sortBy: {
@@ -31,10 +28,13 @@
     },
   });
 
+  const auth = useAuthStore();
+  const isAdmin = computed(() => auth.isAdmin);
+
   const expanded = ref([]);
 
   const headers = [
-    { title: 'ID', key: 'id', sortable: true, align: 'center', minWidth: 30, },
+    { title: 'ID', key: 'id', sortable: true, align: 'center', maxWidth: 75, },
     { title: 'Name', key: 'name', sortable: true, align: 'center', minWidth: 175, },
     { title: 'Email', key: 'email', sortable: true, align: 'center', minWidth: 220, },
     { title: 'Location', key: 'location', sortable: true, align: 'center', minWidth: 120, },
@@ -65,6 +65,12 @@
     height="525"
     class="elevation-1 bg-background rounded-lg"
   >
+    <template #item.id="{ value }">
+      <div class="id-cell" :title="value">
+        {{ value }}
+      </div>
+    </template>
+
     <template #item.name="{ value }">
       <div class="d-flex align-center justify-center gap-2">
         <span>{{ value }}</span>
@@ -93,7 +99,6 @@
         <td :colspan="columns.length">
           <ExpandedRowContent
             :user="internalItem.raw"
-            :is-admin="isAdmin"
             aria-label="Admin expandable row section"
           />
         </td>
@@ -139,5 +144,15 @@
   :deep(.v-data-table-header__sort-icon) {
     opacity: 0.35 !important;
     visibility: visible !important;
+  }
+
+  :deep(.id-cell) {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    margin: 0 auto;
+    font-family: monospace;
+    font-size: 0.8rem;
   }
 </style>

@@ -12,7 +12,7 @@
   const emit = defineEmits(['update:modelValue', 'confirm']);
 
   function onConfirm() {
-    emit('confirm', props.user.id);
+    emit('confirm', props.user);
   }
 </script>
 
@@ -20,8 +20,8 @@
   <ConfirmDialog
     :model-value="modelValue"
     title="Block user"
-    :message="`Are you sure you want to block ${user.name}?`"
-    confirm-text="Block"
+    :message="`Are you sure you want to ${user.blocked ? 'unblock' : 'block'} ${user.name}?`"
+    :confirm-text="user.blocked ? 'Unblock' : 'Block'"
     @update:modelValue="$emit('update:modelValue', $event)"
     @confirm="onConfirm"
   />

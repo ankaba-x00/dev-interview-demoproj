@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const validator = require('validator');
 
 const userSchema = new mongoose.Schema(
@@ -7,18 +7,18 @@ const userSchema = new mongoose.Schema(
       type: String,
       lowercase: true,
       trim: true,
-      required: [true, "Email is required"],
+      required: [true, 'Email is required'],
       unique: true,
-      validate: [validator.isEmail, "Invalid email address"],
+      validate: [validator.isEmail, 'Invalid email address'],
     },
     password: { 
       type: String, 
-      required: [true, "Password is required"],
+      required: [true, 'Password is required'],
     }, 
     role: {
       type: String, 
-      enum: ["USER", "ADMIN"], 
-      default: "USER",
+      enum: ['USER', 'ADMIN'], 
+      default: 'USER',
     },
     lastLogin: {
       type: Date, 
@@ -28,11 +28,11 @@ const userSchema = new mongoose.Schema(
       type: String, 
       validate: {
         validator: validator.isIP,
-        message: props => `${props.value} is not a valid IP address`
+        message: props => `${props.value} is not a valid IP address`,
       },
     },
   },
   { timestamps: true },
 );
 
-module.exports = userSchema; 
+module.exports = mongoose.model('AuthUser', userSchema);

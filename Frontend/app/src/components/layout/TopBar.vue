@@ -3,6 +3,8 @@
   import NavigationItems from './NavigationItems.vue';
   import ThemeToggle from './ThemeToggle.vue';
   import UserMenu from './UserMenu.vue';
+  import { useAuthStore } from '@/stores/auth';
+  import { useRouter } from 'vue-router';
 
   defineProps({
     collapsed: {
@@ -11,13 +13,17 @@
     },
   });
 
+  const auth = useAuthStore();
+  const router = useRouter();
+
   const emit = defineEmits([
     'toggle-collapse',
     'switch-layout',
   ]);
 
   function onLogout () {
-    console.log('Logout clicked');
+    auth.logout();
+    router.push('/login');
   }
 </script>
 
@@ -58,7 +64,10 @@
     </v-btn>
 
     <!-- User menu -->
-    <UserMenu @logout="onLogout" />
+    <UserMenu 
+      :username="auth.user?.email"
+      @logout="onLogout" 
+    />
   </v-app-bar>
 
   <!-- COLLAPSED TOPBAR -->

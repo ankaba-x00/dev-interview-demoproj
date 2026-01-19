@@ -4,18 +4,33 @@
   const props = defineProps({
     title: String,
     submitLabel: String,
+    showConfirm: {
+      type: Boolean,
+      default: false,
+    },
   });
 
   const emit = defineEmits(['submit']);
 
   const email = ref('');
   const password = ref('');
+  const confirmPassword = ref('');
 
   function onSubmit() {
-    emit('submit', {
+    const payload = {
       email: email.value,
       password: password.value,
-    });
+    };
+
+    if (props.showConfirm) {
+      payload.confirmPassword = confirmPassword.value;
+    }
+
+    emit('submit', payload);
+
+    email.value = '';
+    password.value = '';
+    confirmPassword.value = '';
   }
 </script>
 
@@ -39,6 +54,14 @@
         type="password"
         autocomplete="current-password"
       />
+
+      <v-text-field
+        v-if="showConfirm"
+        v-model="confirmPassword"
+        label="Confirm Password"
+        type="password"
+        autocomplete="new-password"
+      />
     </v-card-text>
 
     <div class="mb-6 text-center">
@@ -50,6 +73,7 @@
         variant="flat"
         color="clr0"
         class="btn-auth"
+        :disabled="showConfirm && password !== confirmPassword"
         @click="onSubmit"
       >
         {{ submitLabel }}

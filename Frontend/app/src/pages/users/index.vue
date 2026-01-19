@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, computed } from 'vue';
+  import { ref, reactive, computed, onMounted } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import UserTableToolbar from '@/components/table/UserTableToolbar.vue';
   import UserTable from '@/components/table/UserTable.vue';
@@ -8,34 +8,57 @@
   import ImportUsersDialog from "@/components/dialogs/ImportUsersDialog.vue";
   import SearchUsersDialog from '@/components/dialogs/SearchUsersDialog.vue';
   import FilterUsersDialog from '@/components/dialogs/FilterUsersDialog.vue';
+  import EditUserDialog from "@/components/dialogs/EditUserDialog.vue";
+  import DeleteUserDialog from "@/components/dialogs/DeleteUserDialog.vue";
+  import BlockUserDialog from "@/components/dialogs/BlockUserDialog.vue";
   import ExportUsersDialog from "@/components/dialogs/ExportUsersDialog.vue";
-  import userData from '@/users.json';
+  //import userData from '@/users.json';
+  import api from "@/api/axios";
+  import { useAuthStore } from "@/stores/auth";
+  import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
+  import { useNotificationStore } from '@/stores/notifications';
 
-  const isAdmin = ref(true);
+  definePage({
+    meta: {
+      requiresAuth: true,
+    },
+  });
+
+  const auth = useAuthStore();
+  const isAdmin = computed(() => auth.isAdmin);
+
+  const state = reactive({
+    users: [],
+    isLoading: true,
+  });
+
+  const users = computed(() =>
+    state.users.map(user => ({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      location: user.location,
+      blocked: user.isBlocked,
+      status: user.isActive ? 'active' : 'inactive',
+      lastLogin: user.lastLogin,
+      ipAddress: user.ipAddress,
+    }))
+  );
 
   const createDialogOpen = ref(false);
   const importDialogOpen = ref(false);
   const searchDialogOpen = ref(false);
   const filterDialogOpen = ref(false);
   const exportDialogOpen = ref(false);
-  
-  const users = ref(
-    userData.map((user, index) => ({
-      id: index + 1,
-      name: user.Name,
-      email: user.Email,
-      location: user.Location,
-      blocked: user.Active !== 'true',
-      status: user.Active === 'true' ? 'active' : 'inactive',
-      lastLogin: user.LastLogin,
-      ipAddress: user.IPAddress,
-    }))
-  );
 
   const route = useRoute();
   const router = useRouter();
+  const notify = useNotificationStore();
 
   // QUERY PARAMS
+
+  const userId = computed(() => route.query.id);
+  const action = computed(() => route.query.action);
 
   const searchParams = computed(() => ({
     name: route.query.name?.toString().toLowerCase() || '',
@@ -77,6 +100,24 @@
       limit: Number(route.query.limit) || 25,
   }));
 
+  // MODIFYING
+
+  const selectedUser = computed(() =>
+    users.value.find(u => String(u.id) === String(userId.value))
+  );
+
+  const isEditOpen = computed(() => !!userId.value && action.value === 'edit');
+  const isDeleteOpen = computed(() => !!userId.value && action.value === 'delete');
+  const isBlockOpen = computed(() => !!userId.value && action.value === 'block');
+
+  function closeDialogs() {
+    const { action, id, ...tableQuery } = route.query;
+    router.push({ 
+      path: '/users',
+      query: tableQuery,
+    });
+  }
+
   // HELPER
 
   function withinLoginRange(lastLogin, range) {
@@ -104,7 +145,6 @@
 
     return true;
   }
-
 
   // FILTERING
 
@@ -164,7 +204,7 @@
     const sortBy = route.query.sortBy;
     const order = route.query.order;
 
-    if (!sortBy) return rows;
+    if (!sortBy || !['asc', 'desc'].includes(order)) return rows;
 
     rows.sort((a, b) => {
       const aVal = a[sortBy];
@@ -180,14 +220,6 @@
 
     return rows;
   });
-
-  function createUser(data) {
-    console.log('CREATE user', data);
-  }
-
-  function importUsers(file) {
-    console.log('IMPORT users', file);
-  }
 
   // HANDLE QUERY UPDATES
 
@@ -265,15 +297,149 @@
     router.push({ query: current });
   }
 
+  // FETCH USERS
+
+  async function fetchUsers() {
+    state.isLoading = true;
+    try {
+      const response = await api.get('/users', {
+        params: {
+          ...route.query,
+          page: paginationParams.value.page,
+          limit: paginationParams.value.limit,
+        },
+      });
+      state.users = response.data.data;
+    } catch (error) {
+      console.error('Error fetching users', error);
+    } finally {
+      state.isLoading = false;
+    }
+  }
+
+  // HANDLE IMPORT
+
+  async function createUser(data) {
+    try {
+      const payload = {
+        name: data.name,
+        email: data.email,
+        location: data.location,
+        isActive: data.status === 'active',
+        isBlocked: !!data.blocked,
+      };
+      await api.post('/users', payload);
+      await fetchUsers();
+      createDialogOpen.value = false;
+    } catch (err) {
+      console.error('Failed to create user', err);
+    }
+  }
+
+async function importUsers(file) {
+  if (!file) {
+    console.warn("No file selected for import")
+    return;
+  }
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+    await api.post("/data/import", formData);
+    notify.success('Import successful');
+    await fetchUsers();
+  } catch (err) {
+    console.error('Failed to import file', err);
+  }
+}
+
+  // HANDLE MODIFICATION
+
+  async function updateUser(data) {
+    console.log(data)
+    try {
+      if (!data?.id) {
+        throw new Error("User ID missing");
+      }
+      const payload = {
+        name: data.name,
+        email: data.email,
+        location: data.location,
+        isActive: data.status === "active",
+        isBlocked: !!data.blocked,
+      };
+      await api.patch(`/users/${data.id}`, payload);
+      await fetchUsers();
+      closeDialogs();
+    } catch (err) {
+      console.error("Failed to update user", err);
+    }
+  }
+
+  async function deleteUser(user) {
+    try {
+      if (!user?.id) {
+        throw new Error("User ID missing");
+      }
+      await api.delete(`/users/${user.id}`);
+      await fetchUsers();
+      closeDialogs();
+    } catch (err) {
+      console.error("Failed to delete user", err);
+    }
+  }
+
+  async function blockUser(user) {
+    try {
+      if (!user?.id) {
+        throw new Error("User ID missing");
+      }
+      const endpoint = user.blocked
+        ? `/users/${user.id}/unblock`
+        : `/users/${user.id}/block`;
+      await api.patch(endpoint);
+      await fetchUsers();
+      closeDialogs();
+    } catch (err) {
+      console.error("Failed to block/unblock user", err);
+    }
+  }
+
   // HANDLE EXPORT
 
-  function exportFullList() {
-    console.log('EXPORT full list from backend');
+  async function downloadCSV(params) {
+    const response = await api.get("/data/export", {
+      params,
+      responseType: "blob",
+    });
+    const blob = new Blob([response.data], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "users.csv";
+    link.click();
+    window.URL.revokeObjectURL(url);
   }
 
-  function exportClientList(rows) {
-    console.log('EXPORT filtered list', rows);
+  async function exportFullList() {
+    try {
+      await downloadCSV({});
+      notify.success('Full export successful');
+    } catch (err) {
+      console.error("Failed to export full list", err);
+    }
   }
+
+  async function exportClientList() {
+    try {
+      const { action, id, page, limit, ...filters } = route.query;
+      await downloadCSV(filters);
+      notify.success('Filtered export successful');
+    } catch (err) {
+      console.error("Failed to export filtered list", err);
+    }
+  }
+
+  onMounted(fetchUsers);
 </script>
 
 <template>
@@ -290,9 +456,10 @@
 
     <v-divider class="my-2" />
 
+    <PulseLoader v-if="state.isLoading" class="ma-16"/>
     <UserTable 
+      v-else
       :items="sortedUsers"
-      :is-admin="isAdmin"
       :sort-by="sortParams"
       :page="paginationParams.page"
       :items-per-page="paginationParams.limit"
@@ -327,8 +494,31 @@
 
     <FilterUsersDialog
       v-model="filterDialogOpen"
-      :is-admin="isAdmin"
       @apply="applyFilters"
+    />
+
+    <EditUserDialog
+      v-if="selectedUser"
+      :model-value="isEditOpen"
+      :user="selectedUser"
+      @update:modelValue="v => !v && closeDialogs()"
+      @submit="updateUser"
+    />
+
+    <DeleteUserDialog
+      v-if="selectedUser"
+      :model-value="isDeleteOpen"
+      :user="selectedUser"
+      @update:modelValue="v => !v && closeDialogs()"
+      @confirm="deleteUser"
+    />
+
+    <BlockUserDialog
+      v-if="selectedUser"
+      :model-value="isBlockOpen"
+      :user="selectedUser"
+      @update:modelValue="v => !v && closeDialogs()"
+      @confirm="blockUser"
     />
 
     <ExportUsersDialog

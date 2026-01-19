@@ -1,5 +1,8 @@
 <script setup>
+  import { useAuthStore } from '@/stores/auth';
+  import { useRouter } from 'vue-router';
   import AuthForm from '@/components/common/AuthForm.vue';
+  import { useNotificationStore } from '@/stores/notifications';
 
   definePage({
     meta: {
@@ -7,15 +10,27 @@
     },
   });
 
-  function register(data) {
-    console.log('REGISTER', data);
+  const auth = useAuthStore();
+  const router = useRouter();
+  const notify = useNotificationStore();
+
+  async function register(data) {
+    try {
+      await auth.register(data);
+      notify.success('Account created successfully');
+      router.push('/login');
+    } catch (err) {
+      console.log(err.details);
+      console.error('Register failed', err);
+    }
   }
 </script>
 
 <template>
   <AuthForm
     title="Register"
-    submit-label="Create account"
+    submit-label="Create"
+    :show-confirm="true"
     @submit="register"
   >
     <span class="text-caption">

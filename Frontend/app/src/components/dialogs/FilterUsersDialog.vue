@@ -1,13 +1,13 @@
 <script setup>
   import { reactive, computed, watch } from 'vue';
+  import { useAuthStore } from "@/stores/auth";
 
   const props = defineProps({
     modelValue: Boolean,
-    isAdmin: {
-      type: Boolean,
-      default: false,
-    },
   });
+
+  const auth = useAuthStore();
+  const isAdmin = computed(() => auth.isAdmin);
 
   const form = reactive({
     isActive: null,
@@ -31,7 +31,7 @@
   const hasFilters = computed(() =>
     form.isActive !== null ||
     form.isBlocked !== null ||
-    (props.isAdmin && (
+    (isAdmin && (
       form.loginRange ||
       form.loginFrom ||
       form.loginTo

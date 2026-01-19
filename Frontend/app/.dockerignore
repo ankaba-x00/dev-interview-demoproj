@@ -1,0 +1,48 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+build
+.out
+coverage
+
+# Environment / secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Git
+.git
+.gitignore
+
+# Editors / IDEs
+.vscode
+.idea
+.editorconfig
+*.swp
+*.swo
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Logs / temp
+logs
+*.log
+tmp
+temp
+
+# Dev-only Docker files
+docker-compose.yml
+Dockerfile.dev
+
+# Type generation (editor-only)
+components.d.ts
+typed-router.d.ts
+
+# Tooling configs (not needed in runtime image)
+eslint.config.js
+.browserslistrc
+jsconfig.json

@@ -14,6 +14,7 @@ declare module 'vue' {
     AddUserDialog: typeof import('./src/components/dialogs/CreateUserDialog.vue')['default']
     AppFooter: typeof import('./src/components/AppFooter.vue')['default']
     AppLayout: typeof import('./src/components/layout/AppLayout.vue')['default']
+    AppSnackbar: typeof import('./src/components/common/AppSnackbar.vue')['default']
     AuthForm: typeof import('./src/components/common/AuthForm.vue')['default']
     AuthLayout: typeof import('./src/components/layout/AuthLayout.vue')['default']
     BlockUserDialog: typeof import('./src/components/dialogs/BlockUserDialog.vue')['default']

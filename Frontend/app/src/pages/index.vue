@@ -2,6 +2,12 @@
   import { computed } from 'vue';
   import { useTheme } from 'vuetify';
 
+  definePage({
+    meta: {
+      requiresAuth: true,
+    },
+  });
+
   const theme = useTheme();
 
   const isDark = computed(() => theme.global.current.value.dark);
