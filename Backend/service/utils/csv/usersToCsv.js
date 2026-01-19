@@ -1,23 +1,23 @@
 function usersToCSV(users, admin = false) {
   const headers = [
-    "name",
-    "email",
-    "location",
-    "isActive",
-    "isBlocked",
-    ...(admin ? ["lastLogin", "ipAddress"] : []),
+    'location',
+    'isActive',
+    'email',
+    'name',
+    'isBlocked',
+    ...(admin ? ['lastLogin', 'ipAddress'] : []),
   ];
 
   const rows = users.map(u =>
     headers.map(h => {
       const val = u[h];
-      if (val === null || val === undefined) return "";
+      if (val === null || val === undefined) return '';
       if (val instanceof Date) return val.toISOString();
       return `"${String(val).replace(/"/g, '""')}"`;
-    }).join(",")
+    }).join(',')
   );
 
-  return [headers.join(","), ...rows].join("\n");
+  return [headers.join(','), ...rows].join('\n');
 };
 
 module.exports = usersToCSV;

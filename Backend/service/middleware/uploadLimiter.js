@@ -1,4 +1,4 @@
-const multer = require("multer");
+const multer = require('multer');
 
 /**
  * Upload limits
@@ -18,11 +18,11 @@ const uploadLimiter = multer({
 
   fileFilter(req, file, cb) {
     const isCsvMime =
-      file.mimetype === "text/csv" ||
-      file.mimetype === "application/vnd.ms-excel";
-    const isCsvExt = file.originalname.toLowerCase().endsWith(".csv");
+      file.mimetype === 'text/csv' ||
+      file.mimetype === 'application/vnd.ms-excel';
+    const isCsvExt = file.originalname.toLowerCase().endsWith('.csv');
     if (!isCsvMime || !isCsvExt) {
-      return cb(new Error("Only CSV files are allowed"));
+      return cb(new Error('Only CSV files are allowed'));
     }
 
     cb(null, true);

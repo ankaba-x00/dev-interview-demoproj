@@ -61,9 +61,9 @@
   const action = computed(() => route.query.action);
 
   const searchParams = computed(() => ({
-    name: route.query.name?.toString().toLowerCase() || '',
+    name: route.query.name?.toString() || '',
     email: route.query.email?.toString().toLowerCase() || '',
-    location: route.query.location?.toString().toLowerCase() || '',
+    location: route.query.location?.toString() || '',
   }));
 
   const filterParams = computed(() => ({
@@ -153,7 +153,7 @@
       // SEARCH
       if (
         searchParams.value.name &&
-        !user.name.toLowerCase().includes(searchParams.value.name)
+        !user.name.includes(searchParams.value.name)
       ) return false;
 
       if (
@@ -163,7 +163,7 @@
 
       if (
         searchParams.value.location &&
-        !user.location.toLowerCase().includes(searchParams.value.location)
+        !user.location.includes(searchParams.value.location)
       ) return false;
 
       // FILTERS

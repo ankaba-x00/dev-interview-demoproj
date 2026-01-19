@@ -6,13 +6,13 @@ const validateCreateAuthUser = require('../validation/authUserValidation');
 
 // ROUTES /v1/auth
 
-//Register
+// POST = REGISTER
 router.post('/register', async (req, res) => {
   try {
     const { error } = validateCreateAuthUser(req.body);
     if (error) {
       return res.status(400).json({
-        message: "Input validation failed",
+        message: 'Input validation failed',
         errors: error.details
       });
     }
@@ -37,7 +37,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-//Login
+// POST = LOGIN
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;

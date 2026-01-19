@@ -141,7 +141,7 @@ router.post('', verify, async (req, res) => {
   const { error } = validateCreateUser(req.body);
   if (error) {
     return res.status(400).json({
-      message: "Input validation failed",
+      message: 'Input validation failed',
       errors: error.details
     });
   }
@@ -167,7 +167,7 @@ router.patch('/:id', verify, async (req, res) => {
   const { error } = validateUpdateUser(req.body);
   if (error) {
     return res.status(400).json({
-      message: "Input validation failed",
+      message: 'Input validation failed',
       errors: error.details
     });
   }

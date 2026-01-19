@@ -10,14 +10,14 @@ api.interceptors.request.use(
   (config) => {
     let user = null;
     try {
-      user = JSON.parse(localStorage.getItem("user"));
+      user = JSON.parse(localStorage.getItem('user'));
     } catch {}
 
     if (user?.accessToken) {
       config.headers.token = `Bearer ${user.accessToken}`;
     }
 
-    config.headers["x-frontend"] = "client";
+    config.headers['x-frontend'] = 'client';
     return config;
   },
   (error) => Promise.reject(error)

@@ -1,4 +1,4 @@
-const rateLimit = require("express-rate-limit");
+const rateLimit = require('express-rate-limit');
 
 /**
  * Import limit
@@ -11,7 +11,7 @@ const importLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   message: {
-    message: "Import limit exceeded: max 3 imports per 5 minutes",
+    message: 'Import limit exceeded: max 3 imports per 5 minutes',
   },
 });
 

@@ -1,7 +1,7 @@
-const scanFile = require("./scanFile");
-const parseCsv = require("./parseCsv");
-const validateRow = require("./validateRow");
-const { normalizeName, normalizeLocation } = require("./sanitizeValues");
+const scanFile = require('./scanFile');
+const parseCsv = require('./parseCsv');
+const validateRow = require('./validateRow');
+const { normalizeName, normalizeLocation } = require('./sanitizeValues');
 
 /**
  * Import pipeline
@@ -17,14 +17,14 @@ async function csvToUsers(fileBuffer) {
   // STEP 1 : scan file
   const cleanFile = await scanFile(fileBuffer);
   if (!cleanFile) {
-    throw new Error("File rejected: virus scan failed");
+    throw new Error('File rejected: virus scan failed');
   }
 
   // STEP 2 : parse file
-  const csvString = fileBuffer.toString("utf-8");
+  const csvString = fileBuffer.toString('utf-8');
   const rows = parseCsv(csvString);
   if (!rows.length) {
-    throw new Error("File rejected: empty file")
+    throw new Error('File rejected: empty file')
   }
   
   // STEP 3 : validate row
@@ -38,7 +38,7 @@ async function csvToUsers(fileBuffer) {
       name: normalizeName(row.name),
       email: row.email?.trim().toLowerCase(),
       location: normalizeLocation(row.location),
-      isActive: row.isActive === "true" || row.isActive === true,
+      isActive: row.isActive === 'true' || row.isActive === true,
     };
     const valError = validateRow(user, index);
     if (valError) {
@@ -50,7 +50,7 @@ async function csvToUsers(fileBuffer) {
     if (emails.has(user.email)) {
       errors.push({
         row: index + 1,
-        errors: ["duplicate email in CSV"],
+        errors: ['duplicate email in CSV'],
       });
       return;
     }
@@ -61,7 +61,7 @@ async function csvToUsers(fileBuffer) {
 
   // reject partial uploads
   if (errors.length) {
-    const err = new Error("Data rejected: validation failed");
+    const err = new Error('Data rejected: validation failed');
     err.details = errors;
     throw err;
   }
