@@ -2,8 +2,9 @@ const dotenv = require('dotenv');
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./service/db/index');
-const authRoute = require('./service/routes/auth');
-const userRoute = require('./service/routes/user');
+const healthRoutes = require('./service/routes/healthz');
+const authRoutes = require('./service/routes/auth');
+const userRoutes = require('./service/routes/user');
 const dataRoutes = require('./service/routes/data');
 
 dotenv.config();
@@ -27,8 +28,9 @@ app.use(cors({
 
 connectDB();
 
-app.use('/v1/auth', authRoute);
-app.use('/v1/users', userRoute);
+app.use('/', healthRoutes);
+app.use('/v1/auth', authRoutes);
+app.use('/v1/users', userRoutes);
 app.use('/v1/data', dataRoutes);
 
 app.listen(3000, () => {
