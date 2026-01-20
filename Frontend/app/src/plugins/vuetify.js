@@ -18,6 +18,8 @@ export default createVuetify({
           clr4: '#e5844f',
           error: '#d33434',
           success: '#22C55E',
+          warning: '#d0a12b',
+          info: '#1859c2',
         },
       },
       dark: {
@@ -32,6 +34,8 @@ export default createVuetify({
           clr4: '#f6884d',
           error: '#F87171',
           success: '#4ADE80',
+          warning: '#cfa846',
+          info: '#2d6fda',
         },
       },
     },

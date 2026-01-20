@@ -331,6 +331,7 @@
       await api.post('/users', payload);
       await fetchUsers();
       createDialogOpen.value = false;
+      notify.success('User addition successful');
     } catch (err) {
       console.error('Failed to create user', err);
     }
@@ -370,6 +371,7 @@ async function importUsers(file) {
       await api.patch(`/users/${data.id}`, payload);
       await fetchUsers();
       closeDialogs();
+      notify.success('User update successful');
     } catch (err) {
       console.error("Failed to update user", err);
     }

@@ -23,7 +23,6 @@
   )
 
   function onFileChange(selected) {
-    // const selected = files?.[0];
     if (!selected) return;
 
     if (!selected.name.endsWith('.csv')) {
@@ -38,7 +37,7 @@
       skipEmptyLines: true,
       complete: result => {
         headers.value = result.meta.fields || [];
-        rows.value = result.data.slice(0, 10); // preview first 10
+        rows.value = result.data.slice(0, 10);
         error.value = null;
       },
       error: err => {

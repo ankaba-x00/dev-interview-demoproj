@@ -4,7 +4,7 @@ export const useNotificationStore = defineStore('notifications', {
   state: () => ({
     show: false,
     message: '',
-    color: 'info', // success | error | warning | info
+    color: 'info',
     timeout: 4000,
   }),
 
@@ -14,6 +14,10 @@ export const useNotificationStore = defineStore('notifications', {
       this.color = color;
       this.timeout = timeout;
       this.show = true;
+    },
+
+    info() {
+      this.notify(message, 'info')
     },
 
     success(message) {

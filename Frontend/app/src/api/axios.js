@@ -26,10 +26,10 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    const notifications = useNotificationStore();
+    const notify = useNotificationStore();
 
     if (!error.response) {
-      notifications.error('Network error. Please check your connection.');
+      notify.error('Network error. Please check your connection.');
       return Promise.reject(error);
     }
 
@@ -37,7 +37,7 @@ api.interceptors.response.use(
 
     switch (status) {
       case 400:
-        notifications.error(
+        notify.error(
           Array.isArray(data)
             ? data[0]?.message || 'Invalid request'
             : data?.message || 'Invalid request'
@@ -45,30 +45,30 @@ api.interceptors.response.use(
         break;
 
       case 401:
-        notifications.error('Invalid email or password');
+        notify.error('Invalid email or password');
         localStorage.removeItem('user');
         router.push('/login');
         break;
 
       case 403:
-        notifications.error(data?.message || 'Access denied');
+        notify.error(data?.message || 'Access denied');
         break;
 
       case 404:
-        notifications.error(data?.message || 'Resource not found');
+        notify.error(data?.message || 'Resource not found');
         break;
 
       case 409:
-        notifications.warning(data?.message || 'Conflict detected');
+        notify.warning(data?.message || 'Conflict detected');
         break;
 
       default:
         if (status >= 500) {
-          notifications.error('Server error. Please try again later.');
+          notify.error('Server error. Please try again later.');
         } else if (data?.message) {
-          notifications.error(data.message);
+          notify.error(data.message);
         } else {
-          notifications.error('Unexpected error occurred');
+          notify.error('Unexpected error occurred');
         }
     }
     return Promise.reject(error);

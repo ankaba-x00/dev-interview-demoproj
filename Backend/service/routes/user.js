@@ -2,7 +2,7 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 const User = require('../entity/User');
 const { validateCreateUser, validateUpdateUser } = require('../validation/userValidation');
-const verify = require('../auth/validateToken');
+const verify = require('../middleware/validateToken');
 
 // HELPER FUNCTIONS
 
@@ -12,8 +12,8 @@ function isAdmin(req) {
 
 function sanitizeUser(user, admin) {
   if (admin) return user;
-  const { lastLogin, ipAddress, ...safeUser } = user;
-  return safeUser;
+  const { lastLogin, ipAddress, ...publicUser } = user;
+  return publicUser;
 }
 
 // ROUTES /v1/users

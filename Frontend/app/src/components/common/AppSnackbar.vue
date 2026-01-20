@@ -81,14 +81,14 @@
   }
 
   .snackbar-warning {
-    border: 2px solid rgb(var(--v-theme-clr3));
-    background-color: color-mix(in srgb, rgb(var(--v-theme-clr3)) 80%, white 70%);
-    color: color-mix(in srgb, rgb(var(--v-theme-clr3)) 70%, black 30%);  
+    border: 2px solid rgb(var(--v-theme-warning));
+    background-color: color-mix(in srgb, rgb(var(--v-theme-warning)) 80%, white 70%);
+    color: color-mix(in srgb, rgb(var(--v-theme-warning)) 70%, black 30%);  
   }
 
   .snackbar-info {
-    border: 2px solid rgb(var(--v-theme-clr1));
-    background-color: color-mix(in srgb, rgb(var(--v-theme-clr1)) 80%, white 70%);
-    color: color-mix(in srgb, rgb(var(--v-theme-clr1)) 70%, black 30%);
+    border: 2px solid rgb(var(--v-theme-info));
+    background-color: color-mix(in srgb, rgb(var(--v-theme-info)) 80%, white 70%);
+    color: color-mix(in srgb, rgb(var(--v-theme-info)) 70%, black 30%);
   }
 </style>

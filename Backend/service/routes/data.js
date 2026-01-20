@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const User = require('../entity/User');
-const verify = require('../auth/validateToken');
+const verify = require('../middleware/validateToken');
 const importLimiter = require('../middleware/importLimiter');
 const uploadLimiter = require('../middleware/uploadLimiter');
 const errorHandler = require('../middleware/errorHandler');
