@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, reactive, computed, onMounted } from 'vue';
+  import { ref, watch, reactive, computed, onMounted } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import UserTableToolbar from '@/components/table/UserTableToolbar.vue';
   import UserTable from '@/components/table/UserTable.vue';
@@ -440,7 +440,13 @@ async function importUsers(file) {
     }
   }
 
-  onMounted(fetchUsers);
+  watch(
+    () => route.query,
+    () => {
+      fetchUsers()
+    },
+    { deep: true, immediate: true }
+  );
 </script>
 
 <template>

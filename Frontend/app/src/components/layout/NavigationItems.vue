@@ -27,7 +27,10 @@
       label: 'Users',
       icon: 'mdi-account-group',
       color: 'clr2',
-      to: '/users',
+      to: {
+        path: '/users',
+        query: {},
+      },
     },
   ]);
 </script>
