@@ -371,7 +371,6 @@ async function importUsers(file) {
       await api.patch(`/users/${data.id}`, payload);
       await fetchUsers();
       closeDialogs();
-      notify.success('User update successful');
     } catch (err) {
       console.error("Failed to update user", err);
     }

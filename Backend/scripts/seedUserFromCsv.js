@@ -3,8 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
 const csv = require('csv-parser');
-const User = require('../entity/User');
-const CSV_PATH = path.join(__dirname, '../../data/user.csv');
+const User = require('../service/entity/User');
+const CSV_PATH = path.join(__dirname, '../data/user.csv');
 
 dotenv.config();
 

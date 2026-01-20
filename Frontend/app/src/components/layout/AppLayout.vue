@@ -18,13 +18,13 @@
     collapsed.value = false;
   }
 
-  const storedMode = localStorage.getItem('sideMode');
+  const storedMode = localStorage.getItem('navMode');
   if (storedMode) {
     layoutMode.value = storedMode === 'side' ? 'side' : 'top';
   }
 
   watch(layoutMode, (mode) => {
-    localStorage.setItem('sideMode', mode);
+    localStorage.setItem('navMode', mode);
   });
 
   watch(
