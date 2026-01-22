@@ -55,7 +55,7 @@ Node.js + Express | MongoDB | Vue 3 + Vuetify 3 + Vite | Docker
 3.2. start both backend and frontend server via `npm start` in each project root (use the correct ports!)<br>
 4. docker setup<br>
 4.1. run `docker-compose up --build` in both backend and frontend root<br>
-Note: due to ./scripts/wait-for-mongo.sh DB is automatically fired up before backend (see Backend/Dockerfile.dev)
+Note: due to ./scripts/wait-for-mongo.sh, the database is automatically fired up before backend (see Backend/Dockerfile.dev)
 5. IMPORTANT: first login gets admin role assigned automatically (alternatively use Postman)
 
 ## Services and Ports (Development)
@@ -66,7 +66,7 @@ Note: due to ./scripts/wait-for-mongo.sh DB is automatically fired up before bac
 |  Backend |      3000      |    4001   ||        Yes (API)       |
 | Database |     27017      |   35555   ||  No (internal network) |
 ```
-Note: The database port is exposed for local development only; in production, MongoDB would not be publicly accessible.
+Note: The database port is exposed for local development only. In production, MongoDB would not be publicly accessible.
 
 ## Project Structure
 ```
