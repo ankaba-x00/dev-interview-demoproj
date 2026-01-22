@@ -19,7 +19,7 @@
     class="d-flex align-center justify-center h-100"
   >
     <v-img
-      src="/logo.png"
+      src="/logo_placeholder.png"
       alt="company Logo"
       max-width="500"
       aspect-ratio="auto"
