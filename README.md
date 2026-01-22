@@ -20,51 +20,58 @@ Node.js + Express | MongoDB | Vue 3 + Vuetify 3 + Vite | Docker
 ## My solution
 
 ### Main Features and Focus
-### Security Features
-1) Role devision and authentication layer
-2) JWT session tokenisation
-3) Password hasing via bcrypt for MongoDB
-4) Differentiation between system- and user-controlled data within the backend
-5) Multi-step input validation for text and file input
-6) Consistent error handling in backend and frontend
-### UI/UX Features
+#### Architecture Overview
+1) Router-driven UI state in the frontend
+2) Stateless REST API with role-based authorization
+3) Multi-layer validation for user and file input
+4) Docker-based local development environment
+#### Security Features
+1) Authentication and Authorization
+    - Role-based access control (Admin/User)
+    - JWT-based session tokenization
+2) Data Protection
+    - Password hashing using bcrypt
+    - Differentiation between system- and user-controlled data
+3) Input & API Security
+    - Multi-step validation (in backend + frontend)
+    - File upload validation & rate limiting
+    - Consistent error handling
+#### UI/UX Features
 1) Consistent state management with clearly defined state owner and children
 2) Customizable UX features incl.
       - Topbar-sidebar toggle<br>
       - Dark-light mode toggle<br>
       - Collapsible topbar and side
-3) Instantaneous uder feedback for error handling via custom Snackbars
+3) Instantaneous user feedback for error handling via custom Snackbars
 4) Reduction of user annoyances (invalid input check with button-blocking, safe page refresh, smart window closing)
 5) Fully responsive layout from mobile to large screens
 6) Modular and easy to extend 
-### Tests
-#### Frontend:
+#### Tests
+1) Frontend:
   - Unit tests for components using Vitest + Vue Test Utils<br>
   - Browser-based end-to-end tests using Cypress
-#### Backend:
+2) Backend:
   - Test runner and assertions using Vitest<br>
   - HTTP API integration tests using Supertest 
       
 ## Getting Started
-1. create a .env file<br>
-1.1. add MONGO_URI to .env to connect a MongoDB database (use correct port for local or docker setup!)<br>
-1.2. add TOKEN_KEY to .env for JWT tokenisation<br>
-2. install dependencies for backend (in Backend/) and frontend (in Frontend/app) via `npm install`<br>
+1. create a .env file in Backend/ and add MONGO_URI and TOKEN_KEY<br>
+2. install dependencies in Backend/ and in Frontend/app via `npm install`<br>
 3. local setup<br>
-3.1. to fire up the database, use e.g. docker `docker compose up -d mongo-user` inside backend root<br>
-3.2. start both backend and frontend server via `npm start` in each project root (use the correct ports!)<br>
+3.1. start MongoDB e.g. via Docker `docker compose up -d mongo-user`<br>
+3.2. run `npm start` in Backend/ and Frontend/app<br>
 4. docker setup<br>
-4.1. run `docker-compose up --build` in both backend and frontend root<br>
-Note: due to ./scripts/wait-for-mongo.sh, the database is automatically fired up before backend (see Backend/Dockerfile.dev)
+4.1. run `docker compose up --build` in Backend/ and Frontend/<br>
+Note: due to ./scripts/wait-for-mongo.sh, the database automatically fires up before the backend server is up
 5. IMPORTANT: first login gets admin role assigned automatically (alternatively use Postman)
 
 ## Services and Ports (Development)
 ```
-|  Service | Container Port | Host Port || Exposed in Production  |
-|----------|----------------|-----------||------------------------|
-| Frontend |      5173      |    5001   || Yes (via reverse proxy)|
-|  Backend |      3000      |    4001   ||        Yes (API)       |
-| Database |     27017      |   35555   ||  No (internal network) |
+|  Service | Container Port | Host Port | Exposed in Production  |
+|----------|----------------|-----------|------------------------|
+| Frontend |      5173      |    5001   | Yes (via reverse proxy)|
+|  Backend |      3000      |    4001   |        Yes (API)       |
+| Database |     27017      |   35555   |  No (internal network) |
 ```
 Note: The database port is exposed for local development only. In production, MongoDB would not be publicly accessible.
 
