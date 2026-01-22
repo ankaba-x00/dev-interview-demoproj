@@ -48,7 +48,7 @@ Node.js + Express | MongoDB | Vue 3 + Vuetify 3 + Vite | Docker
 6) Modular and easy to extend 
 #### Tests
 1) Frontend:
-  - Unit tests for components using Vitest + Vue Test Utils<br>
+  - Unit and integration tests for components using Vitest + Vue Test Utils<br>
   - Browser-based end-to-end tests using Cypress
 2) Backend:
   - Test runner and assertions using Vitest<br>
@@ -87,8 +87,11 @@ App/
 |   │  ├─ entity/
 |   │  ├─ middleware/
 |   │  ├─ routes/
-|   │  ├─ utils/
-|   │  └─ validation/
+|   │  └─ utils/
+|   ├─ tests/
+|   │  ├─ api/
+|   │  ├─ middleware/
+|   │  └─ utils/
 |   ├─ .env
 |   ├─ docker-compose.yml
 |   ├─ Dockerfile.dev
