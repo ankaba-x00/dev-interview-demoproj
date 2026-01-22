@@ -1,0 +1,96 @@
+node_modules/
+npm-debug.log*
+*.log
+logs/
+
+.env
+.env.*
+.secret
+*.key
+*.pem
+*.crt
+
+############################
+# Build / Output
+############################
+dist/
+build/
+.output/
+.out/
+.next/
+.vite/
+.cache/
+.temp/
+coverage/
+.nyc_output
+
+############################
+# Database / MongoDB
+############################
+Database/mongodb_user/
+Database/mongodb/
+Database/data/
+Database/db/
+
+*.wt
+*.wt.tmp
+WiredTiger*
+mongod.lock
+storage.bson
+*.mongodata
+*.bson
+
+journal/
+diagnostic.data/
+_tmp/
+.mongodb/
+
+############################
+# Runtime / Uploads
+############################
+temp/
+tmp/
+cache/
+uploads/
+sessions/
+
+############################
+# IDE / Editor
+############################
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
+*~
+
+############################
+# Generated Files
+############################
+typed-router.d.ts
+components.d.ts
+auto-imports.d.ts
+*.generated.*
+*.auto.*
+
+############################
+# OS / System
+############################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+############################
+# Docker (optional)
+############################
+# Dockerfile.dev
+# docker-compose.override.yml
