@@ -20,7 +20,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: [
     'Content-Type',
-    'token',
+    'Authorization',
     'x-frontend',
   ],
   credentials: false,
@@ -33,6 +33,10 @@ app.use('/v1/auth', authRoutes);
 app.use('/v1/users', userRoutes);
 app.use('/v1/data', dataRoutes);
 
-app.listen(3000, () => {
-  console.log('Backend server is running');
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(3000, () => {
+    console.log('Backend server is running');
+  });
+};
+
+module.exports = app;

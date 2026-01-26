@@ -1,8 +1,8 @@
 {
-  "name": "demoproj",
+  "name": "demoproj_front",
   "private": true,
   "type": "module",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "start": "vite --host 0.0.0.0 --port 5173",
     "build": "vite build",

@@ -92,6 +92,8 @@ App/
 |   │  ├─ api/
 |   │  ├─ middleware/
 |   │  └─ utils/
+|   │  │  ├─ csv/
+|   │  │  └─ validation/
 |   ├─ .env
 |   ├─ docker-compose.yml
 |   ├─ Dockerfile.dev
@@ -99,6 +101,7 @@ App/
 |   └─ package.json
 ├── Frontend/
 |   ├─ app/
+|   │  ├─ cypress/
 |   │  ├─ e2e/
 |   │  ├─ public/
 |   │  ├─ src/
@@ -114,11 +117,13 @@ App/
 |   │  │  └─ main.js
 |   │  ├─ tests/
 |   │  │  ├─ integration/
+|   │  │  │  ├─ auth/
+|   │  │  │  ├─ pages/
+|   │  │  │  └─ utils/
 |   │  │  ├─ unit/
 |   │  │  │  ├─ components/
 |   │  │  │  ├─ pages/
-|   │  │  │  ├─ stores/
-|   │  │  │  └─ utils/
+|   │  │  │  └─ stores/
 |   │  │  └─ setup.js
 |   │  ├─ csv_to_json.py
 |   │  ├─ Dockerfile.dev

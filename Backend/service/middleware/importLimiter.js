@@ -1,8 +1,8 @@
 const rateLimit = require('express-rate-limit');
 
-/**
- * Import limit
- * 3 files / 5 min
+/*
+Import limit:
+- 3 files / 5 min
 */
 
 const importLimiter = rateLimit({

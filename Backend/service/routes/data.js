@@ -5,8 +5,6 @@ const importLimiter = require('../middleware/importLimiter');
 const uploadLimiter = require('../middleware/uploadLimiter');
 const errorHandler = require('../middleware/errorHandler');
 const { usersToCSV, csvToUsers } = require('../utils/csv/index');
-const { validateCreateUser } = require('../validation/userValidation');
-
 // HELPER FUNCTIONS
 
 function isAdmin(req) {
@@ -83,16 +81,18 @@ router.get('/export', verify, async (req, res) => {
 router.post(
   '/import', 
   verify,
-  importLimiter,
-  uploadLimiter.single('file'), 
-  async (req, res) => {
-    console.log('REQ.FILE: ', req.file)
+  (req, res, next) => {
     if (!isAdmin(req)) {
       return res.status(403).json({ message: 'Admin only' });
     }
+    next();
+  },
+  importLimiter,
+  uploadLimiter.single('file'), 
+  async (req, res) => {
     if (!req.file) {
-        return res.status(400).json({ message: 'No file uploaded' });
-      }
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
 
     try {
       const users = await csvToUsers(req.file.buffer);

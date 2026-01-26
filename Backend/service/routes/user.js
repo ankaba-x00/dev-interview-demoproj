@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
 const User = require('../entity/User');
-const { validateCreateUser, validateUpdateUser } = require('../validation/userValidation');
+const { validateCreateUser, validateUpdateUser } = require('../utils/validation/userValidation');
 const verify = require('../middleware/validateToken');
 
 // HELPER FUNCTIONS

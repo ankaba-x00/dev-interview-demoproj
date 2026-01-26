@@ -25,7 +25,6 @@ describe('Users page admin visibility', () => {
   it('hides admin-only UI for non-admin users', async () => {
     const pinia = createPinia();
 
-    // set auth state manually
     const { useAuthStore } = await import('@/stores/auth');
     const auth = useAuthStore(pinia);
     auth.user = { role: 'USER' };

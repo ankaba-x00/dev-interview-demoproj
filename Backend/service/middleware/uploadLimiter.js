@@ -1,12 +1,12 @@
 const multer = require('multer');
 
-/**
- * Upload limits
- * 1. 5MB size limit
- * 2. 1 file/upload limit
- * 3. File type limit
- * 3.1. MIME check
- * 3.2. Extension check
+/*
+Upload limits: 
+- 5MB size limit
+- 1 file/upload limit
+- File type limit
+  - MIME check
+  - Extension check
 */
 
 const uploadLimiter = multer({

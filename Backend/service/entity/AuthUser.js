@@ -35,4 +35,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-module.exports = mongoose.model('AuthUser', userSchema);
+module.exports = 
+  mongoose.models.AuthUser ||
+  mongoose.model('AuthUser', userSchema);

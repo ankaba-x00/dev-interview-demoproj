@@ -14,7 +14,7 @@ api.interceptors.request.use(
     } catch {}
 
     if (user?.accessToken) {
-      config.headers.token = `Bearer ${user.accessToken}`;
+      config.headers.Authorization = `Bearer ${user.accessToken}`;
     }
 
     config.headers['x-frontend'] = 'client';
