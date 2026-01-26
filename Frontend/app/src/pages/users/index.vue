@@ -12,11 +12,11 @@
   import DeleteUserDialog from "@/components/dialogs/DeleteUserDialog.vue";
   import BlockUserDialog from "@/components/dialogs/BlockUserDialog.vue";
   import ExportUsersDialog from "@/components/dialogs/ExportUsersDialog.vue";
-  //import userData from '@/users.json';
   import api from "@/api/axios";
   import { useAuthStore } from "@/stores/auth";
   import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
   import { useNotificationStore } from '@/stores/notifications';
+  import { withinLoginRange, withinCustomRange } from './helpers';
 
   definePage({
     meta: {
@@ -116,34 +116,6 @@
       path: '/users',
       query: tableQuery,
     });
-  }
-
-  // HELPER
-
-  function withinLoginRange(lastLogin, range) {
-    if (!range || !lastLogin) return true;
-
-    const now = Date.now();
-    const loginTime = new Date(lastLogin).getTime();
-
-    const ranges = {
-      '24h': 24 * 60 * 60 * 1000,
-      '3d': 3 * 24 * 60 * 60 * 1000,
-      '1w': 7 * 24 * 60 * 60 * 1000,
-      '4w': 28 * 24 * 60 * 60 * 1000,
-    };
-
-    return now - loginTime <= ranges[range];
-  }
-
-  function withinCustomRange(lastLogin, from, to) {
-    if (!lastLogin) return false;
-
-    const time = new Date(lastLogin).getTime();
-    if (from && time < new Date(from).getTime()) return false;
-    if (to && time > new Date(to).getTime() + 86400000) return false;
-
-    return true;
   }
 
   // FILTERING

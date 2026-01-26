@@ -39,7 +39,7 @@
 </script>
 
 <template>
-  <div class="app-shell">
+  <div class="app-layout">
     <TopBar
       v-if="layoutMode === 'top'"
       :collapsed="collapsed"
@@ -61,7 +61,7 @@
 </template>
 
 <style scoped lang="scss">
-  .app-shell {
+  .app-layout {
     height: 100vh;
     display: flex;
     overflow: hidden;

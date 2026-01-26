@@ -1,13 +1,13 @@
 // Plugins
-import Components from 'unplugin-vue-components/vite'
-import Vue from '@vitejs/plugin-vue'
-import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
-import Fonts from 'unplugin-fonts/vite'
-import VueRouter from 'unplugin-vue-router/vite'
+import Components from 'unplugin-vue-components/vite';
+import Vue from '@vitejs/plugin-vue';
+import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
+import Fonts from 'unplugin-fonts/vite';
+import VueRouter from 'unplugin-vue-router/vite';
 
 // Utilities
-import { defineConfig } from 'vite'
-import { fileURLToPath, URL } from 'node:url'
+import { defineConfig } from 'vite';
+import { fileURLToPath, URL } from 'node:url';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -62,5 +62,16 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './tests/setup.js',
+    server: {
+      deps: {
+        inline: ['vuetify'],
+      },
+    },
+    reporter: 'verbose',
   },
 })

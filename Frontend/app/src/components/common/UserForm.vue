@@ -33,11 +33,20 @@
   };
 
   function sanitizeName(name) {
-    return name?.trim().split(/\s+/).map(
-        part =>
-          part.charAt(0).toUpperCase() +
-          part.slice(1).toLowerCase()
-      ).join(' ');
+    return name
+      ?.trim()
+      .split(/\s+/)
+      .map(word =>
+        word
+          .split('-')
+          .map(
+            part =>
+              part.charAt(0).toUpperCase() +
+              part.slice(1).toLowerCase()
+          )
+          .join('-')
+      )
+      .join(' ');
   }
 
   function sanitizeEmail(email) {

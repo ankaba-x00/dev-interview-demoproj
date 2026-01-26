@@ -45,6 +45,7 @@
         icon="mdi-content-copy"
         data-no-expand
         @click.stop="copyToClipboard"
+        data-test="copy-icon"
       />
     </template>
   </v-tooltip>

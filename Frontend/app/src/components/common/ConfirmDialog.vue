@@ -31,7 +31,11 @@
 </script>
 
 <template>
-  <v-dialog :model-value="modelValue" max-width="420" @update:modelValue="$emit('update:modelValue', $event)">
+  <v-dialog 
+    :model-value="modelValue" 
+    max-width="420" 
+    @update:modelValue="$emit('update:modelValue', $event)"
+  >
     <v-card class="pa-2 rounded-lg">
       <v-card-title class="text-h6">
         {{ title }}

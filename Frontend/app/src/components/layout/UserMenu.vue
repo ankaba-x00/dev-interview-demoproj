@@ -46,6 +46,7 @@
       <v-list-item
         @click="logout"
         prepend-icon="mdi-logout"
+        data-test="logout"
       >
         <v-list-item-title>
           Logout

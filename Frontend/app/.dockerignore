@@ -46,3 +46,7 @@ typed-router.d.ts
 eslint.config.js
 .browserslistrc
 jsconfig.json
+
+# Tests
+tests
+e2e

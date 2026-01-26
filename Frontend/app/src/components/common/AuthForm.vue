@@ -45,6 +45,7 @@
         v-model="email"
         label="Email"
         type="email"
+        data-cy="email"
         autocomplete="email"
       />
 
@@ -52,6 +53,7 @@
         v-model="password"
         label="Password"
         type="password"
+        data-cy="password"
         autocomplete="current-password"
       />
 
@@ -73,6 +75,7 @@
         variant="flat"
         color="clr0"
         class="btn-auth"
+        data-cy="submit-login"
         :disabled="showConfirm && password !== confirmPassword"
         @click="onSubmit"
       >

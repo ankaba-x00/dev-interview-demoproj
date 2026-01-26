@@ -1,3 +1,4 @@
+# Node / Package Managers
 node_modules/
 npm-debug.log*
 *.log
@@ -10,9 +11,7 @@ logs/
 *.pem
 *.crt
 
-############################
 # Build / Output
-############################
 dist/
 build/
 .output/
@@ -24,9 +23,7 @@ build/
 coverage/
 .nyc_output
 
-############################
-# Database / MongoDB
-############################
+# Database
 Database/mongodb_user/
 Database/mongodb/
 Database/data/
@@ -45,18 +42,14 @@ diagnostic.data/
 _tmp/
 .mongodb/
 
-############################
 # Runtime / Uploads
-############################
 temp/
 tmp/
 cache/
 uploads/
 sessions/
 
-############################
 # IDE / Editor
-############################
 .vscode/
 .idea/
 *.suo
@@ -67,18 +60,14 @@ sessions/
 *.swo
 *~
 
-############################
 # Generated Files
-############################
 typed-router.d.ts
 components.d.ts
 auto-imports.d.ts
 *.generated.*
 *.auto.*
 
-############################
 # OS / System
-############################
 .DS_Store
 .DS_Store?
 ._*
@@ -89,8 +78,8 @@ Thumbs.db
 desktop.ini
 $RECYCLE.BIN/
 
-############################
-# Docker (optional)
-############################
+# Docker
 # Dockerfile.dev
-# docker-compose.override.yml
+
+# Project Files
+Frontend/app/public/logo.png
