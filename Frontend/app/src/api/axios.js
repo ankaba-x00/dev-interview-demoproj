@@ -3,7 +3,7 @@ import { useNotificationStore } from '@/stores/notifications';
 import router from '@/router';
 
 const api = axios.create({
-  baseURL: 'http://localhost:4001/v1',
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 api.interceptors.request.use(
